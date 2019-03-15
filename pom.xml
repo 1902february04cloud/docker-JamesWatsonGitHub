@@ -42,61 +42,6 @@
 
 	<build>
 		<plugins>
-			<!-- Docker Maven Plugin from Spotify -->
-			<!-- Abstracts the process of creating Docker images from Java projects -->
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.4.10</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-					</execution>
-				</executions>
-				<!-- Docker Plugin Configuration -->
-				<configuration>
-					<!-- Dynamically generating image name from project name -->
-					<imageName>docker-demo/${project.artifactId}</imageName>
-
-					<!-- Virtual Machine with Docker location -->
-					<dockerHost>https://localhost:2376</dockerHost>
-
-					<!-- We are using HTTPS, so we need certificates -->
-					<dockerCertPath>/etc/docker/key.json</dockerCertPath>
-
-					<!-- All images are dependent on Java 8 -->
-					<baseImage>openjdk:8-jre-alpine</baseImage>
-
-					<!-- When we do "docker run imageName" within the docker instance -->
-					<!-- It will run this as a command -->
-					<!-- java -jar /opt/NameOfTheJar.jar -->
-					<entryPoint>
-						["java", "-jar", "/opt/${project.build.finalName}.jar"]
-					</entryPoint>
-
-					<!-- There is something called Docker Hub -->
-					<!-- You can push your images to the cloud for collaboration -->
-					<pushImage>false</pushImage>
-
-					<!-- Resources -->
-					<resources>
-						<resource>
-							<targetPath>/opt/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<excludes>
-								<exclude>target/**/*</exclude>
-								<exclude>pom.xml</exclude>
-								<exclude>*.iml</exclude>
-							</excludes>
-							<include>${project.build.finalName}.jar</include>
-						</resource>
-					</resources>
-				</configuration>
-			</plugin>
-
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
